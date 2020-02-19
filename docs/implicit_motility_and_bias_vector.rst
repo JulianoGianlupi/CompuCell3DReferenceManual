@@ -21,6 +21,7 @@ Implicit Motility
 also calculates the change in energy caused by movement,
 
 .. math::
+
     \begin{eqnarray}
         E = - \lambda_{IM} \vec{b} \dot \frac{\vec{R}}{\|\vec{\Delta R}\|}.
     \end{eqnarray}
@@ -39,7 +40,7 @@ have it's own value). The ``XML`` syntax for the "by cell type" case is:
         <MotilityEnergyParameters CellType="Type3" LambdaMotility="7.5"/>
    </Plugin>
 
-To set individual :math: `\lambda` for each cell the ``XML`` is
+To set individual :math:`\lambda` for each cell the ``XML`` is
 
 .. code-block:: xml
 
@@ -60,4 +61,32 @@ python via
 
 The values ``cell.biasVecX``, ``cell.biasVecY``, ``cell.biasVecZ`` can be changed in python.
 
-The default behaviour for ``b`` is to be a white noise random unitary vector
+The default behaviour for ``b`` is to be a white noise random unitary vector. To load it the syntax is
+
+.. code-block:: xml
+
+    <Steppable Type="BiasVectorSteppable"/>
+
+Bias vector can also behave in a persistent way, following the equation
+
+.. math::
+
+    \begin{eqnarray}
+        \vec{b(t+\Delta t} = \alpha \vec{b(t)} + (1-\alpha)\vec{\nu(t)}
+    \end{eqnarray}
+
+:math:`\nu` is a white noise random unitary vector. The :math:`\alpha` parameter defines how much of the previous bias
+to keep and how much of the random vector to use. When using persistent bias you can define a different :math:`\alpha`
+for each cell type
+
+.. code-block:: xml
+
+
+   <Steppable Type="BiasVectorSteppable">
+        <BiasChange>
+            <BiasChange Type = "persistent"/>
+            <BiasChangeParameters CellType="Type1" Alpha = "0.5"/>
+            <BiasChangeParameters CellType="Type2" Alpha = "0.1"/>
+            <BiasChangeParameters CellType="Type3" Alpha = "0.99"/>
+        </BiasChange>
+   </Steppable>
