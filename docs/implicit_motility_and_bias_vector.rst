@@ -29,7 +29,7 @@ The negative sign might seem strange, but it is there because minimization
 of energy is favored. ``R`` is the change in center of mass, it is divided by it's own modulus
 so that any movement has the same impact. :math: `\lambda` defines the magnitude of the change,
 it can be defined  by cell type or by cell ID (each cell can
-have it's own value). The ``XML`` syntax for the "by cell type" case is
+have it's own value). The ``XML`` syntax for the "by cell type" case is:
 
 .. code-block:: xml
 
@@ -39,3 +39,25 @@ have it's own value). The ``XML`` syntax for the "by cell type" case is
         <MotilityEnergyParameters CellType="Type3" LambdaMotility="7.5"/>
    </Plugin>
 
+To set individual :math: `\lambda` for each cell the ``XML`` is
+
+.. code-block:: xml
+
+    <Plugin Name="ImplicitMotility"/>
+
+
+Bias Vector Steppable
+~~~~~~~~~~~~~~~~~~~~~
+
+``Bias Vector Steppable`` is responsible for controlling the bias vector, ``b``. The bias vector is accessible from
+python via
+
+.. code-block:: python
+
+    b_x = cell.biasVecX
+    b_y = cell.biasVecY
+    b_z = cell.biasVecZ
+
+The values ``cell.biasVecX``, ``cell.biasVecY``, ``cell.biasVecZ`` can be changed in python.
+
+The default behaviour for ``b`` is to be a white noise random unitary vector
